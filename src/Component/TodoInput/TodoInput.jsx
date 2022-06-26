@@ -1,24 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { todoInput, input } from './style.js';
 
 const TodoInput = (props) => {
-  const {onSubmitHandler, value, setItemValue} =props;
-   
+   const {onInsert} = props;
+   const [value, setItemValue] = useState('');
+
    return (
       <div className="todoInput" style={todoInput}>
-         <form onSubmit={(e) =>onSubmitHandler(e)} >
          <input 
             name='todoItem'
             style={input} 
             placeholder="Type the Todo List"
             value={value}
-            onChange={(e)=> setItemValue(e.target.value)}
+            onKeyDown={(e)=> 
+               {
+                  if(e.keyCode === 13){
+                     onInsert(value);
+                     setItemValue('');
+                     return;
+                  }
+               }} 
+            onChange={(e)=>{
+               setItemValue(e.target.value)
+            }}
          />
-         <input type='submit' hidden/>
-         </form>
       </div>
    );   
 }
-
 
 export default TodoInput;
